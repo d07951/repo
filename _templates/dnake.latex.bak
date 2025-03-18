@@ -1,0 +1,253 @@
+% ======================================
+% 文档基础设置
+% ======================================
+$if(passoptions)$
+$passoptions$
+$endif$
+\documentclass[a4paper,12pt]{article}  % 文档类型：article适合报告文档；其他可选：report(长篇报告), book(书籍)
+                                      % 纸张大小：a4paper；字号：12pt
+
+% ======================================
+% 基础包加载（所有 \usepackage 命令必须在 \begin{document} 之前）
+% ======================================
+\usepackage[utf8]{inputenc}     % UTF-8编码支持
+\usepackage{xcolor}             % 颜色支持，用于文字、背景等着色
+\usepackage{amsmath,amssymb}    % 数学公式支持
+\usepackage{etoolbox}           % 提供额外的宏命令
+\usepackage{enumitem}           % 支持自定义列表样式
+\usepackage{array}              % 增强表格功能
+\usepackage{booktabs}           % 专业表格支持
+\usepackage{longtable}          % 长表格支持
+\usepackage{tabularx}           % 自动调整表格宽度
+\usepackage{multirow}           % 表格中跨行单元格
+\usepackage{xfp}                % 提供 \real 命令支持
+\usepackage{calc}               % 提供长度计算支持
+\usepackage{ragged2e}           % 提供 \RaggedRight 等命令
+\usepackage{makecell}           % 单元格内容处理
+\usepackage{xltabular}          % 结合 longtable 和 tabularx
+\usepackage{graphicx}           % 图片插入支持
+\usepackage{tikz}               % 矢量图形绘制支持
+\usepackage{pgf}                % TikZ的基础包
+\usepackage{fancyhdr}           % 页眉页脚定制
+\usepackage{ctex}               % 中文排版支持
+\usepackage{xeCJK}              % 中文字体支持
+\usepackage{zhnumber}           % 中文数字支持
+
+% 页面布局设置
+\usepackage[
+    a4paper,
+    top=2.5cm,        % 上边距
+    bottom=2.5cm,     % 下边距
+    left=1.5cm,       % 左边距
+    right=1.5cm,      % 右边距
+    headheight=1.5cm, % 页眉高度
+    headsep=0.5cm,    % 页眉与正文间距
+    footskip=1cm      % 页脚与正文间距
+]{geometry}
+
+% ======================================
+% 中文支持配置
+% ======================================
+\usepackage{ctex}     % 中文排版支持
+\usepackage{xeCJK}    % 中文字体支持
+\usepackage{zhnumber} % 中文数字支持（如：一、二、三级标题）
+
+% 中文字体设置
+\setCJKmainfont{Microsoft YaHei}  % 主字体
+\setCJKsansfont{Microsoft YaHei}  % 无衬线字体
+\setCJKmonofont{Microsoft YaHei}  % 等宽字体
+
+% ======================================
+% 图形和绘图支持
+% ======================================
+\graphicspath{{_assets/images/}} % 图片默认路径
+
+% ======================================
+% 页眉页脚设置
+% ======================================
+\pagestyle{fancy}      % 启用fancy样式
+\fancyhf{}            % 清除默认设置
+
+% 装饰线定义 - 可自定义更多样式
+\newcommand{\decorativeline}{%
+    \begin{tikzpicture}
+        % 主渐变线条
+        \shade[left color=blue!70, right color=blue!30] 
+            (0,0) rectangle (\textwidth,1.2pt);
+        % 细线装饰
+        \draw[blue!40, thin] (0,-1pt) -- (\textwidth,-1pt);
+        
+        % 更多装饰效果（已注释）：
+        % % 左侧装饰点
+        % \fill[blue!90] (0.5cm,0) circle (1.2pt);
+        % \fill[blue!70] (0.8cm,0) circle (0.8pt);
+        % % 右侧装饰点
+        % \fill[blue!90] (\textwidth-0.5cm,0) circle (1.2pt);
+        % \fill[blue!70] (\textwidth-0.8cm,0) circle (0.8pt);
+    \end{tikzpicture}%
+}
+
+% 页眉设置
+\fancyhead[L]{狄耐克智慧物联}           % 左页眉
+%\fancyhead[C]{\leftmark}              % 中页眉（当前章节标题，已注释）
+\fancyhead[R]{\includegraphics[height=25pt]{_assets/images/logo.png}}  % 右页眉
+
+% 页脚设置
+\fancyfoot[C]{\thepage}                % 中页脚（页码）
+\fancyfoot[L]{智慧病房解决方案}         % 左页脚
+\fancyfoot[R]{\today}                  % 右页脚（当前日期）
+
+% 页眉线设置
+\renewcommand{\headrule}{%
+    \vspace{-0.5pt}%
+    \decorativeline
+    \vspace{2pt}%
+}
+
+% 页脚线设置
+\renewcommand{\footrulewidth}{1pt}    % 页脚线粗细
+
+% ======================================
+% 其他常用包（已注释，按需启用）
+% ======================================
+% \usepackage{hyperref}      % PDF文档链接支持，建议放在所有包的最后加载
+% \usepackage{booktabs}      % 专业表格支持
+% \usepackage{multirow}      % 表格中跨行单元格
+% \usepackage{enumitem}      % 自定义列表样式
+% \usepackage{listings}      % 代码块显示
+% \usepackage{subfigure}     % 子图排列
+% \usepackage{appendix}      % 附录支持
+% \usepackage{titlesec}      % 标题格式自定义
+
+% ======================================
+% 常用自定义命令（已注释，按需启用）
+% ======================================
+% % 重要内容标记
+% \newcommand{\important}[1]{\textcolor{red}{#1}}
+% % 备注内容
+% \newcommand{\note}[1]{\textcolor{gray}{\small{#1}}}
+% % 解决方案重点
+% \newcommand{\highlight}[1]{\colorbox{yellow!20}{#1}}
+
+% ======================================
+% pandoc变量处理（不建议修改）
+% ======================================
+$if(fontsize)$
+\documentclass[$fontsize$]{article}
+$endif$
+
+$if(linestretch)$
+\usepackage{setspace}
+\setstretch{$linestretch$}
+$endif$
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+$if(tables)$
+\usepackage{longtable,booktabs}
+$endif$
+
+% ======================================
+% 文档信息设置
+% ======================================
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+$if(date)$
+\date{$date$}
+$endif$
+
+% ======================================
+% Pandoc 特定命令定义
+% ======================================
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}%
+}
+
+
+
+% ======================================
+% 表格相关设置（放在 \begin{document} 之前）
+% ======================================
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{multirow}
+\usepackage{makecell}
+
+% 设置表格的默认宽度和边距
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+\setlength{\LTpre}{6pt}    % 表格前间距
+\setlength{\LTpost}{6pt}   % 表格后间距
+
+% 设置表格样式
+\renewcommand{\arraystretch}{1.2}  % 行间距
+\setlength{\tabcolsep}{4pt}       % 列间距
+
+% 设置长表格跨页时的表头和表尾样式
+\AtBeginDocument{
+    \def\LT@makecaption#1#2#3{%
+        \LT@mcol\LT@cols c{\hbox to\z@{\hss\parbox{\LTcapwidth}{%
+            \sbox\@tempboxa{#2#3}%
+            \ifdim\wd\@tempboxa>\hsize
+                #2#3%
+            \else
+                \hbox to\hsize{\hfil\box\@tempboxa\hfil}%
+            \fi
+            \endgraf\vskip\baselineskip}%
+        \hss}}}
+}
+
+% 允许表格中的长文本自动换行
+\setlength{\parindent}{0pt}  % 设置段落缩进为0
+\setlength{\parskip}{0.5ex}  % 设置段落间距
+
+% 定义表格列的默认格式
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1\textwidth}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1\textwidth}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1\textwidth}}
+
+% 设置默认的列宽
+\def\tablewidth{\textwidth}
+\def\tablecolwidth{\dimexpr\tablewidth/\LT@cols-2\tabcolsep\relax}
+
+% ======================================
+% 文档主体
+% ======================================
+\begin{document}
+
+$if(title)$
+\maketitle
+$endif$
+
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+$if(toc)$
+\tableofcontents
+$endif$
+
+% 添加以下行以确保 tightlist 被识别
+\setlist{nosep} % 这将确保列表项之间没有额外的垂直间距
+
+% 定义 \arraybackslash 如果未定义
+\providecommand{\arraybackslash}{\renewcommand{\arraybackslash}{}}
+
+% 定义表格相关命令
+\newcolumntype{P}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+
+$body$
+
+\end{document}

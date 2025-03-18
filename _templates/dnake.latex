@@ -1,0 +1,645 @@
+% ======================================
+% 文档基础设置
+% ======================================
+$if(passoptions)$
+$passoptions$
+$endif$
+\documentclass[
+    a4paper,                   % A4纸张
+    12pt,                      % 主要字号
+    oneside,                   % 单面打印
+    openany,                   % 章节可以从任意页开始
+    UTF8                       % UTF-8编码
+]{article}
+
+% 基础包加载
+\usepackage{graphicx}           % 图片支持（移到最前面）
+\usepackage{float}              % 浮动体
+\usepackage{amssymb}           % 数学符号，包含方框
+\usepackage{pifont}            % 提供更多符号
+\usepackage{wasysym}           % 提供复选框符号
+
+% 定义复选框命令
+\newcommand{\checkbox}{\ding{113}}            % 空心方框
+\newcommand{\checkedbox}{\ding{114}}          % 勾选的方框
+\newcommand{\crossbox}{\ding{116}}            % 打叉的方框
+
+% 图片路径和格式设置
+\graphicspath{{./}{./images/}}  % 添加图片搜索路径
+\DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}  % 支持的图片格式
+
+% ======================================
+% 基础包加载 - 编码与语言支持
+% ======================================
+\usepackage{ucs}                % Unicode 字符支持
+\usepackage{ifxetex}            % XeTeX 条件支持
+\usepackage{ifluatex}           % LuaTeX 条件支持
+\usepackage{fixltx2e}           % 修复一些 LaTeX2e 的已知问题
+
+% ======================================
+% 中文支持配置 - 字体与排版
+% ======================================
+\usepackage{ctex}               % 中文排版支持
+\usepackage{xeCJK}             % 中文字体支持
+\usepackage{zhnumber}          % 中文数字支持
+
+% ======================================
+% 基础功能包
+% ======================================
+\usepackage{calc}               % 计算功能
+\usepackage{xcolor}             % 颜色支持
+\usepackage{caption}            % 标题
+\usepackage{subcaption}         % 子标题
+\usepackage{fancyhdr}           % 页眉页脚
+\usepackage{geometry}           % 页面布局
+\usepackage{hyperref}           % 超链接支持
+\usepackage{listings}           % 代码展示
+\usepackage{enumitem}           % 自定义列表样式
+\usepackage{pgffor}
+
+% ======================================
+% 表格相关包
+% ======================================
+\usepackage{array}             % 表格增强
+\usepackage{longtable}         % 长表格
+\usepackage{booktabs}          % 专业表格线
+\usepackage{multirow}          % 跨行
+\usepackage{tabularx}          % 表格宽度
+\usepackage{colortbl}          % 表格颜色
+\usepackage{makecell}          % 单元格
+\usepackage{threeparttable}    % 表格注释
+\usepackage{diagbox}           % 对角线表头
+\usepackage{rotating}          % 旋转
+\usepackage{wrapfig}           % 图文混排
+
+% ======================================
+% 可视化相关包
+% ======================================
+\usepackage{tcolorbox}          % 文本框
+\usepackage{tikz}               % 绘图
+\usepackage{pgfplots}          % 数据可视化
+\usepackage{fontawesome5}      % 图标
+\usepackage{siunitx}           % 单位
+
+% TikZ 库加载
+\usetikzlibrary{
+    shapes,
+    arrows,
+    positioning,
+    mindmap,
+    trees,
+    backgrounds,
+    fit,
+    calc
+}
+
+% tcolorbox 配置
+\tcbuselibrary{skins}
+\tcbuselibrary{breakable}
+
+% ======================================
+% 页面布局设置
+% ======================================
+\geometry{
+    a4paper,
+    top=2.0cm,
+    bottom=2.0cm,
+    left=2.5cm,
+    right=1.5cm,
+    headheight=1.5cm,
+    headsep=0.8cm,
+    footskip=1.5cm,
+    includehead,
+    includefoot
+}
+
+% 中文字体设置
+\setCJKmainfont{Microsoft YaHei}[
+    BoldFont={Microsoft YaHei Bold},
+    FallBack={SimSun},
+    ItalicFont={KaiTi}
+]
+\setCJKsansfont{Microsoft YaHei}[
+    FallBack={SimHei}
+]
+\setCJKmonofont{Microsoft YaHei}[
+    FallBack={SimFang}
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+% ======================================
+% 颜色定义
+% ======================================
+% 狄耐克品牌色系
+\definecolor{dnakePrimary}{RGB}{0, 82, 156}
+\definecolor{dnakeSecondary}{RGB}{0, 166, 214}
+\definecolor{dnakeAccent}{RGB}{255, 102, 0}
+
+% 医疗场景色系
+\definecolor{medicalBlue}{RGB}{41, 128, 185}
+\definecolor{safetyGreen}{RGB}{46, 204, 113}
+\definecolor{warningYellow}{RGB}{241, 196, 15}
+\definecolor{urgentRed}{RGB}{231, 76, 60}
+\definecolor{neutralGray}{RGB}{149, 165, 166}
+
+% ======================================
+% 全局样式设置
+% ======================================
+
+% 调整段间距
+%\setlength{\parskip}{0.5em} % 0.5em 是段间距，可以根据需要调整
+
+
+% 页眉页脚
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{dnakePrimary}{狄耐克智慧物联}}
+\fancyhead[R]{\textcolor{dnakePrimary}{\rightmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% 表格样式
+\setlength{\arrayrulewidth}{0.4pt}                  % 减小表格线宽度
+\setlength{\tabcolsep}{6pt}                         % 减小列间距
+\renewcommand{\arraystretch}{1.1}                   % 减小行间距
+\setlength{\extrarowheight}{1pt}                    % 减小额外行高
+
+% 定义表格默认字体大小
+\newcommand{\tablefontsize}{\fontsize{9}{10}\selectfont}    % 使用9pt字号，11pt行距
+\AtBeginEnvironment{tabular}{\tablefontsize}                % 自动应用到所有表格
+\AtBeginEnvironment{longtable}{\tablefontsize}              % 应用到长表格
+\AtBeginEnvironment{tabularx}{\tablefontsize}               % 应用到tabularx环境
+
+% 浮动体设置
+\floatplacement{table}{H}
+\floatplacement{figure}{H}  % 设置figure环境默认使用H选项
+
+% 重新定义figure环境，强制使用H选项
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][]{%
+    \origfigure[H]%
+}{%
+    \endorigfigure
+}
+
+% 防止孤行和寡行
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+% 内存设置
+\maxdeadcycles=1000
+\extrafloats{1000}
+
+% 超链接样式
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+    citecolor=blue,
+    breaklinks=true,
+    hidelinks=false
+}
+
+% 代码块样式
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{purple},
+    showstringspaces=false,
+    tabsize=4,
+    backgroundcolor=\color{gray!10},
+    captionpos=t,
+    framexleftmargin=4mm,
+    framexrightmargin=4mm,
+    aboveskip=\medskipamount,
+    belowskip=\medskipamount
+}
+
+% tcolorbox 默认样式
+\tcbset{
+    enhanced,
+    sharp corners,
+    colback=white,
+    colframe=dnakePrimary,
+    fonttitle=\bfseries
+}
+
+% 表格标题样式
+\captionsetup[table]{
+    format=hang,
+    labelsep=quad,
+    font={small,bf},
+    skip=6pt,
+    position=top,
+    labelfont={color=dnakePrimary},
+    textfont={color=dnakePrimary}
+}
+
+% 定义新的列类型
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+
+% 设置列宽的命令
+\newcommand{\setcolumnwidths}[1]{%
+    \typeout{Debug: Setting column widths to #1}% 输出当前列宽设置
+    \setlengths{#1} % 直接调用 setlengths
+}
+
+\newlength{\someLength} % 定义长度变量
+
+% 这里是一个示例，假设你有多个列宽
+\newcommand{\setlengths}[1]{%
+    \message{Debug: Column widths are set to #1}% 输出当前处理的长度
+    \def\delimiter{,} % 定义分隔符为逗号
+    \foreach \length in {#1} {%
+        \message{Debug: Processing length \length}% 输出当前处理的长度
+        \setlength{\someLength}{\length}% 这里的 \someLength 应该是您要设置的长度变量
+    }
+}
+
+% ======================================
+% pandoc变量处理
+% ======================================
+$if(fontsize)$
+\renewcommand{\normalsize}{\fontsize{$fontsize$}{1.2\real{$fontsize$}}\selectfont}
+$endif$
+
+$if(linestretch)$
+\usepackage{setspace}
+\setstretch{$linestretch$}
+$endif$
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+%$if(tables)$
+%\usepackage{calc}
+%\usepackage{wrapfig}
+%\floatplacement{table}{H}
+%$endif$
+
+
+%
+% tables
+%
+$if(tables)$
+
+\definecolor{table-row-color}{HTML}{F5F5F5}
+\definecolor{table-rule-color}{HTML}{999999}
+
+%\arrayrulecolor{black!40}
+\arrayrulecolor{table-rule-color}     % color of \toprule, \midrule, \bottomrule
+\setlength\heavyrulewidth{0.3ex}      % thickness of \toprule, \bottomrule
+\renewcommand{\arraystretch}{1.3}     % spacing (padding)
+
+$if(table-use-row-colors)$
+% Unfortunately the colored cells extend beyond the edge of the
+% table because pandoc uses @-expressions (@{}) like so:
+%
+% \begin{longtable}[]{@{}ll@{}}
+% \end{longtable}
+%
+% https://en.wikibooks.org/wiki/LaTeX/Tables#.40-expressions
+\usepackage{etoolbox}
+\AtBeginEnvironment{longtable}{\rowcolors{2}{}{table-row-color!100}}
+\preto{\toprule}{\hiderowcolors}{}{}
+\appto{\endhead}{\showrowcolors}{}{}
+\appto{\endfirsthead}{\showrowcolors}{}{}
+$endif$
+$endif$
+
+
+
+
+% ======================================
+% Pandoc 特定命令定义
+% ======================================
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}%
+}
+
+% ======================================
+% 图片设置
+% ======================================
+% 图片标题样式
+\captionsetup[figure]{
+    format=hang,
+    labelsep=quad,
+    font={small,bf},
+    skip=6pt,
+    position=bottom,
+    labelfont={color=dnakePrimary},
+    textfont={color=dnakePrimary}
+}
+
+% 图片浮动设置
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.65}
+\renewcommand{\floatpagefraction}{0.60}
+
+% Pandoc 图片处理命令
+\makeatletter
+\newcommand{\maxwidth}{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\newcommand{\maxheight}{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\newcommand{\pandocbounded}[1]{%
+  \def\@captype{figure}%
+  \centering%
+  #1%
+}
+\makeatother
+
+% 图片默认选项
+\setkeys{Gin}{width=\linewidth}
+
+% ======================================
+% 医疗解决方案专用命令
+% ======================================
+% 解决方案重点标记
+\newcommand{\solution}[1]{\textcolor{dnakePrimary}{\textbf{#1}}}
+% 核心优势标记
+\newcommand{\advantage}[1]{\colorbox{dnakeSecondary!20}{\textcolor{dnakePrimary}{#1}}}
+% 政策要点标记
+\newcommand{\policy}[1]{\textcolor{medicalBlue}{\textit{#1}}}
+% 安全保障标记
+\newcommand{\safety}[1]{\textcolor{safetyGreen}{\textbf{#1}}}
+% 效率提升标记
+\newcommand{\efficiencymark}[1]{\textcolor{dnakeAccent}{\textbf{#1}}}
+% 警示信息标记
+\newcommand{\warning}[1]{\textcolor{warningYellow}{\textbf{⚠ #1}}}
+% 紧急信息标记
+\newcommand{\urgent}[1]{\textcolor{urgentRed}{\textbf{❗#1}}}
+% 备注信息标记
+\newcommand{\remark}[1]{\textcolor{neutralGray}{\small{💡 #1}}}
+
+% 方案亮点框
+\newcommand{\highlight}[2][dnakeSecondary!10]{%
+    \begin{tcolorbox}[
+        colback=#1,
+        colframe=dnakePrimary,
+        arc=2mm,
+        boxrule=0.5pt
+    ]
+    #2
+    \end{tcolorbox}
+}
+
+% 医疗数据展示框
+\newcommand{\databox}[2]{%
+    \begin{tcolorbox}[
+        colback=white,
+        colframe=medicalBlue,
+        arc=0mm,
+        boxrule=1pt,
+        title=#1
+    ]
+    #2
+    \end{tcolorbox}
+}
+
+% 医疗指标展示
+\newcommand{\metric}[2]{%
+    \begin{tcolorbox}[
+        colback=white,
+        colframe=medicalBlue,
+        width=0.45\textwidth,
+        halign=center
+    ]
+    {\Large\textbf{#1}}\\[0.2cm]
+    {\small #2}
+    \end{tcolorbox}
+}
+
+% 系统架构图
+\newcommand{\systemarch}[1]{%
+    \begin{center}
+    \begin{tikzpicture}[node distance=2cm]
+    #1
+    \end{tikzpicture}
+    \end{center}
+}
+
+% 医疗流程图
+\newcommand{\workflow}[1]{%
+    \begin{center}
+    \begin{tikzpicture}[
+        node distance=2cm,
+        process/.style={
+            rectangle,
+            rounded corners,
+            draw=dnakePrimary,
+            fill=white,
+            text width=2.5cm,
+            minimum height=1cm,
+            align=center
+        },
+        arrow/.style={
+            ->,
+            >=latex,
+            thick,
+            draw=dnakePrimary
+        }
+    ]
+    #1
+    \end{tikzpicture}
+    \end{center}
+}
+
+% 医疗设备图标
+\newcommand{\meddevice}[1]{%
+    \raisebox{-0.1em}{\textcolor{dnakePrimary}{\faIcon{#1}}}
+}
+
+% 医疗安全等级
+\newcommand{\safetylevel}[1]{%
+    \textcolor{safetyGreen}{%
+        \ifnum#1>0\faIcon{shield}\fi
+        \ifnum#1>1\faIcon{shield}\fi
+        \ifnum#1>2\faIcon{shield}\fi
+    }%
+}
+
+% 效率提升指标
+\newcommand{\efficiencymetric}[2]{%
+    \textcolor{dnakeAccent}{%
+        \faIcon{chart-line} #1\% (#2)%
+    }%
+}
+
+% ======================================
+% 医疗解决方案专用环境
+% ======================================
+% 方案优势环境
+\newenvironment{advantages}{%
+    \begin{tcolorbox}[
+        title=方案优势,
+        colback=dnakeSecondary!5,
+        colframe=dnakeSecondary,
+        breakable
+    ]
+    \begin{itemize}
+}{%
+    \end{itemize}
+    \end{tcolorbox}
+}
+
+% 政策符合度环境
+\newenvironment{policycompliance}{%
+    \begin{tcolorbox}[
+        title=政策符合度分析,
+        colback=medicalBlue!5,
+        colframe=medicalBlue,
+        breakable
+    ]
+    \begin{description}
+}{%
+    \end{description}
+    \end{tcolorbox}
+}
+
+% 实施效果环境
+\newenvironment{implementation}{%
+    \begin{tcolorbox}[
+        title=实施效果,
+        colback=safetyGreen!5,
+        colframe=safetyGreen,
+        breakable
+    ]
+}{%
+    \end{tcolorbox}
+}
+
+% 成本收益环境
+\newenvironment{costbenefit}{%
+    \begin{tcolorbox}[
+        title=成本收益分析,
+        colback=dnakeAccent!5,
+        colframe=dnakeAccent,
+        breakable
+    ]
+}{%
+    \end{tcolorbox}
+}
+
+% ======================================
+% 文档信息设置
+% ======================================
+$if(title)$
+\title{$title$}
+$endif$
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+$if(date)$
+\date{$date$}
+$endif$
+
+% ======================================
+% 四级标题格式设置
+% ======================================
+\usepackage{titlesec}  % 引入 titlesec 包以自定义标题格式
+
+% 自定义四级标题格式
+\titleformat{\paragraph}
+  {\normalfont\normalsize\bfseries} % 字体样式
+  {\theparagraph}                     % 标题编号
+  {1em}                               % 标题与内容之间的间距
+  {}                                   % 标题前的代码（可以为空）
+
+% 自定义四级标题的间距
+\titlespacing*{\paragraph}
+  {0pt}                               % 左边距
+  {3.25ex plus 1ex minus .2ex}       % 上边距
+  {1em}                               % 下边距
+
+% ======================================
+% 文档主体
+% ======================================
+\begin{document}
+
+% Add cover page before content
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{2cm}
+        \includegraphics[width=0.5\textwidth]{_assets/images/logo.png} \\[2cm]
+
+        % 判断是否存在医院名称
+        $if(hospital)$
+        \textbf{\Huge $hospital$ }\\[0.8cm] % 使用 YAML 中的医院名称
+        $endif$
+
+        % 判断是否存在解决方案名称
+        $if(solution)$
+        \textbf{\LARGE $solution$} \\[5cm] % 使用 YAML 中的解决方案名称
+        $endif$
+
+        % 判断是否存在公司名称
+        $if(company)$
+        \textbf{\Large $company$} \\[1cm] % 使用 YAML 中的公司名称
+        $endif$
+
+        % 判断是否存在日期
+        $if(date)$
+        \textbf{\large $date$} \\[3cm] % 使用 YAML 中的日期
+        $endif$
+
+
+        \vfill
+        %\small 本方案符合国家电子病历评级、互联互通成熟度评价等政策要求
+    \end{center}
+    \newpage
+\end{titlepage}
+
+
+
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+
+% 生成目录
+$if(toc)$
+\tableofcontents
+%\newpage
+$endif$
+
+
+% ======================================
+% 自定义一级标题格式
+% ======================================
+\let\oldsection\section
+\renewcommand{\section}[1]{%
+    \newpage % 强制换页
+    \oldsection{#1} % 调用原始的 section 命令
+}
+
+
+$body$
+
+\end{document}
