@@ -6,14 +6,28 @@ set TEMPLATE_DIR=_templates
 set METADATA_FILE=metadata.yaml
 set LUA_FILTER=_scripts\shiftHeading.lua
 set CHAPTERS_DIR=chapters
-
 set TEMP_DIR=tmp
 
 if not exist %TEMP_DIR% mkdir %TEMP_DIR%
-
 del /Q %TEMP_DIR%\*.*
 
-REM ===== Process content structure =====
+set "cmd="
+set "paths_file=%TEMP_DIR%\unique_paths.txt"
+type nul > "!paths_file!"
+
+for /f "delims=" %%i in ('dir /b /s "%CHAPTERS_DIR%\*.md"') do (
+    set "folder=%%~dpi"
+    echo !folder!>> "!paths_file!"
+)
+
+sort "!paths_file!" /unique > "!paths_file!.tmp"
+move /y "!paths_file!.tmp" "!paths_file!" > nul
+
+for /f "usebackq delims=" %%a in ("!paths_file!") do (
+    set "cmd=!cmd! --resource-path="%%a""
+)
+
+
 call :processDirectory "%~dp0%CHAPTERS_DIR%" 1
 
 REM ===== Generate PDF with Pandoc =====
@@ -22,7 +36,7 @@ echo Generating PDF with Pandoc...
 SET CURRENT_DIR=%~dp0
 FOR %%F IN ("%CURRENT_DIR:~0,-1%") DO SET FOLDER_NAME=%%~nxF
 SET OUTPUT_FILE=%FOLDER_NAME%.pdf
-pandoc --pdf-engine=xelatex %TEMP_DIR%\structure.md %PRODUCT_FILES% --metadata-file=%METADATA_FILE% --template=".\_templates\dnake.latex" --toc --toc-depth=2 -o "%OUTPUT_FILE%"
+pandoc --pdf-engine=xelatex %TEMP_DIR%\structure.md %PRODUCT_FILES% --metadata-file=%METADATA_FILE% --template=".\_templates\dnake.latex" --toc --toc-depth=2 -o "%OUTPUT_FILE%" !cmd!
 
 rmdir /s /q %TEMP_DIR%
 echo OK
