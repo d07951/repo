@@ -24,23 +24,33 @@ sort "!paths_file!" /unique > "!paths_file!.tmp"
 move /y "!paths_file!.tmp" "!paths_file!" > nul
 
 for /f "usebackq delims=" %%a in ("!paths_file!") do (
-    set "cmd=!cmd! --resource-path="%%a""
+    set "cmd=!cmd! --resource-path=%%a"
 )
 
 
 call :processDirectory "%~dp0%CHAPTERS_DIR%" 1
 
 REM ===== Generate PDF with Pandoc =====
-echo Generating PDF with Pandoc...
-
 SET CURRENT_DIR=%~dp0
 FOR %%F IN ("%CURRENT_DIR:~0,-1%") DO SET FOLDER_NAME=%%~nxF
-SET OUTPUT_FILE=%FOLDER_NAME%.pdf
-pandoc --pdf-engine=xelatex %TEMP_DIR%\structure.md %PRODUCT_FILES% --metadata-file=%METADATA_FILE% --template=".\_templates\dnake.latex" --toc --toc-depth=2 -o "%OUTPUT_FILE%" !cmd!
+SET OUTPUT_PDF=%FOLDER_NAME%.pdf
+
+for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "_dt=%%a"
+set "_date=%_dt:~0,8%"
+set "_time=%_dt:~8,4%"
+
+SET OUTPUT_DOCX=%FOLDER_NAME%_%_date%_%_time%.docx
+
+
+echo Generating PDF with Pandoc...
+pandoc --pdf-engine=xelatex "%TEMP_DIR%\structure.md"  --metadata-file="%METADATA_FILE%" --template=".\_templates\dnake.latex" --toc --toc-depth=3 -o "%OUTPUT_PDF%" !cmd!
+start %OUTPUT_PDF%
+
+@REM echo Generating Word document...
+@REM pandoc --pdf-engine=xelatex "%TEMP_DIR%\structure.md"  --metadata-file="%METADATA_FILE%" --toc --toc-depth=3 -o "%OUTPUT_DOCX%" --reference-doc=".\_templates\dnake_template.docx" !cmd! 
+@REM start %OUTPUT_DOCX%
 
 rmdir /s /q %TEMP_DIR%
-echo OK
-start %OUTPUT_FILE%
 exit /b
 
 
