@@ -33,7 +33,7 @@ call :processDirectory "%~dp0%CHAPTERS_DIR%" 1
 REM ===== Generate PDF with Pandoc =====
 SET CURRENT_DIR=%~dp0
 FOR %%F IN ("%CURRENT_DIR:~0,-1%") DO SET FOLDER_NAME=%%~nxF
-SET OUTPUT_PDF=%FOLDER_NAME%.pdf
+SET OUTPUT_PDF=%FOLDER_NAME%.PDF
 
 for /f "tokens=2 delims==" %%a in ('wmic OS Get localdatetime /value') do set "_dt=%%a"
 set "_date=%_dt:~0,8%"

@@ -61,16 +61,16 @@ $endif$
 % 表格相关包
 % ======================================
 \usepackage{array}             % 表格增强
-\usepackage{longtable}         % 长表格
+\usepackage{longtable}         % 加载 longtable
 \usepackage{booktabs}          % 专业表格线
 \usepackage{multirow}          % 跨行
 \usepackage{tabularx}          % 表格宽度
 \usepackage{colortbl}          % 表格颜色
-\usepackage{makecell}          % 单元格
-\usepackage{threeparttable}    % 表格注释
-\usepackage{diagbox}           % 对角线表头
-\usepackage{rotating}          % 旋转
-\usepackage{wrapfig}           % 图文混排
+%\usepackage{makecell}          % 单元格
+%\usepackage{threeparttable}    % 表格注释
+%\usepackage{diagbox}           % 对角线表头
+%\usepackage{rotating}          % 旋转
+%\usepackage{wrapfig}           % 图文混排
 
 % ======================================
 % 可视化相关包
@@ -125,16 +125,6 @@ $endif$
 \setCJKmonofont{Microsoft YaHei}[
     FallBack={SimFang}
 ]
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -258,30 +248,20 @@ $endif$
     textfont={color=dnakePrimary}
 }
 
-% 定义新的列类型
+
+$if(tables)$
+\usepackage{array}
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
-\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+$endif$
 
 
-% 设置列宽的命令
-\newcommand{\setcolumnwidths}[1]{%
-    \typeout{Debug: Setting column widths to #1}% 输出当前列宽设置
-    \setlengths{#1} % 直接调用 setlengths
-}
+$if(tables)$
+\setlength{\LTcapwidth}{0.8\textwidth} % 设置表格宽度为页面宽度的 80%
+$endif$
 
-\newlength{\someLength} % 定义长度变量
 
-% 这里是一个示例，假设你有多个列宽
-\newcommand{\setlengths}[1]{%
-    \message{Debug: Column widths are set to #1}% 输出当前处理的长度
-    \def\delimiter{,} % 定义分隔符为逗号
-    \foreach \length in {#1} {%
-        \message{Debug: Processing length \length}% 输出当前处理的长度
-        \setlength{\someLength}{\length}% 这里的 \someLength 应该是您要设置的长度变量
-    }
-}
 
 % ======================================
 % pandoc变量处理
@@ -306,38 +286,6 @@ $endif$
 %$endif$
 
 
-%
-% tables
-%
-$if(tables)$
-
-\definecolor{table-row-color}{HTML}{F5F5F5}
-\definecolor{table-rule-color}{HTML}{999999}
-
-%\arrayrulecolor{black!40}
-\arrayrulecolor{table-rule-color}     % color of \toprule, \midrule, \bottomrule
-\setlength\heavyrulewidth{0.3ex}      % thickness of \toprule, \bottomrule
-\renewcommand{\arraystretch}{1.3}     % spacing (padding)
-
-$if(table-use-row-colors)$
-% Unfortunately the colored cells extend beyond the edge of the
-% table because pandoc uses @-expressions (@{}) like so:
-%
-% \begin{longtable}[]{@{}ll@{}}
-% \end{longtable}
-%
-% https://en.wikibooks.org/wiki/LaTeX/Tables#.40-expressions
-\usepackage{etoolbox}
-\AtBeginEnvironment{longtable}{\rowcolors{2}{}{table-row-color!100}}
-\preto{\toprule}{\hiderowcolors}{}{}
-\appto{\endhead}{\showrowcolors}{}{}
-\appto{\endfirsthead}{\showrowcolors}{}{}
-$endif$
-$endif$
-
-
-
-
 % ======================================
 % Pandoc 特定命令定义
 % ======================================
@@ -351,6 +299,7 @@ $endif$
 % 图片标题样式
 \captionsetup[figure]{
     format=hang,
+    labelformat=empty,
     labelsep=quad,
     font={small,bf},
     skip=6pt,
