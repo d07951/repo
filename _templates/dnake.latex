@@ -176,6 +176,9 @@ $endif$
 \AtBeginEnvironment{longtable}{\tablefontsize}              % 应用到长表格
 \AtBeginEnvironment{tabularx}{\tablefontsize}               % 应用到tabularx环境
 
+\AtBeginEnvironment{longtable}{
+}
+
 % 浮动体设置
 \floatplacement{table}{H}
 \floatplacement{figure}{H}  % 设置figure环境默认使用H选项
@@ -249,17 +252,7 @@ $endif$
 }
 
 
-$if(tables)$
-\usepackage{array}
-\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
-\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
-\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
-$endif$
-
-
-$if(tables)$
-\setlength{\LTcapwidth}{0.8\textwidth} % 设置表格宽度为页面宽度的 80%
-$endif$
+\setlength{\LTcapwidth}{0.8\textwidth} % 设置表格和长表格的宽度为页面宽度的80%
 
 
 
@@ -279,11 +272,6 @@ $if(highlighting-macros)$
 $highlighting-macros$
 $endif$
 
-%$if(tables)$
-%\usepackage{calc}
-%\usepackage{wrapfig}
-%\floatplacement{table}{H}
-%$endif$
 
 
 % ======================================
@@ -313,6 +301,7 @@ $endif$
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\bottomfraction}{0.65}
 \renewcommand{\floatpagefraction}{0.60}
+
 
 % Pandoc 图片处理命令
 \makeatletter
